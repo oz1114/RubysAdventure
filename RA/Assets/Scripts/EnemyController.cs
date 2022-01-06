@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    Animator animator;
+
     public float speed = 5.0f;
     public bool verticle;
     public float changeTime = 3.0f;
@@ -17,6 +19,7 @@ public class EnemyController : MonoBehaviour
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
         timer = changeTime;
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -37,10 +40,14 @@ public class EnemyController : MonoBehaviour
         Vector2 position = rigidbody2d.position;
         if (verticle)
         {
+            animator.SetFloat("MoveX", 0);
+            animator.SetFloat("MoveY", direction);
             position.y = position.y + direction * speed * Time.deltaTime;
         }
         else
         {
+            animator.SetFloat("MoveX", direction);
+            animator.SetFloat("MoveY", 0);
             position.x = position.x + direction * speed * Time.deltaTime;
         }
 
