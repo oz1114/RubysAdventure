@@ -7,7 +7,7 @@ public class RubyController : MonoBehaviour
     Rigidbody2D rigidbody2d;
     public float speed = 3.0f;
     public int maxHealth = 5;
-    public int health { get {return cHealth; } }
+    public int health { get { return cHealth; } }
     int cHealth;
 
     public float invincibleTime = 2.0f;
@@ -30,6 +30,7 @@ public class RubyController : MonoBehaviour
     void Update()
     {
         RubyMove();
+        Talk();
 
         if (isInvincible)
         {
@@ -91,5 +92,21 @@ public class RubyController : MonoBehaviour
         projectile.Launch(lookDirection, 300);
 
         animator.SetTrigger("Launch");
+    }
+
+    void Talk()
+    {
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            RaycastHit2D hit = Physics2D.Raycast(rigidbody2d.position + Vector2.up * 0.2f, lookDirection, 1.5f, LayerMask.GetMask("NPC"));
+            if (hit.collider != null)
+            {
+                NonPlayerCharacter character = hit.collider.GetComponent<NonPlayerCharacter>();
+                if (character != null)
+                {
+                    character.DisplayDialog();
+                }
+            }
+        }
     }
 }
